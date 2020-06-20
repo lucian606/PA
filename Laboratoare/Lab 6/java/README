@@ -1,0 +1,5 @@
+Pentru problema Nim am testat cu un depth 6. (Botul a castigat)
+Pentru problema Reversi am testat cu un depth 6. (Uneori botu castiga, dupa ce am crescut depthul la 10 a castigat botul), iar pe alpha-beta am testat cu 9 si cu 25.
+
+Concluzii: Depth mai mare inseamna ca botul va juca mai bine, dar dureaza mai mult sa efectueze o miscare. Alfa-beta pe 25 e mult mai rapid decat un negamax normal cu facut pe 10 ca si timp de a face o mutare.
+
