@@ -1,0 +1,93 @@
+Iliescu Lucian-Marius 324CC
+
+Problema 1
+
+Tipul 1: Se observa matematic urmatorul lucru, pe prima pozitie pot pune 5
+tipuri de bancnote, dupa fiecare tip pot sa pun alte doua tipuri, si tot asa.
+Deci rezultatul va fi: 5 * 2 * 2 *... 2 = 5 * 2^n-1.
+Pentru eficienta computationala am folosit shiftari la stanga pe biti, deoarece
+is mai rapide decat inmultirile. La fiecare 29 de inmultiri impart la Mod,
+deoarece rezultatul % Mod se modifica din 29 in 29 de inmultiri, altfel e
+egal cu deimpartitul. Complexitatea este de O(n/29) -> O(n), pentru ca fac
+n inmultiri printr-un for.
+
+Tipul 2: Nu mai merge matematic deoarece am un tip de bancnota dupa care pot
+pune 3 tipuri de bancnote, deci trebuie sa tin cont de ce tip am pus inainte
+ca sa stiu ce pot sa pun dupa. Am folosit programare dinamica cu o matrice dp
+cu 5 linii, care reprezinta tipul banilor (0->10, 1->50, 2->100, 3->200, 
+4->500) si coloanele reprezinta numarul de bani pusi. Dp[i][j] imi spune cate 
+bancnote de un tip i, o sa adunat din toate aranjamentele posibile de 
+dimensiunea j+1. Matricea se completeaza pe coloane
+Recurenta de se calculeaza astfel:
+Cazul de baza, cand trebuie sa pun o bancnota (coloana 0), pun 1 la toate
+liniile pentru ca pot incepe cu orice bancnota.
+Tipul 0 (10 lei), pot pune 10 lei dupa 1 (50 lei), 2 (100 lei), sau 4 (500 lei)
+adun cat am pus din aceste tipuri pe coloana anterioara.
+Tipul 1 (50 lei), pot pune 50 lei dupa 0 (10 lei) sau 3 (200 lei), si adun ce
+am pus din aceste tipuri pe coloana anterioara.
+Tipul 2 (100 lei), pot pune 100 lei dupa 0 (10 lei), 2 (100 lei) sau 3 
+(200 lei) procedez la fel.
+Tipul 3 (200 lei), pot pune 200 lei dupa 1 (50 lei) sau 4 (500 lei) procedez
+la fel.
+TIpul 4 (500 lei), pot pune 500 lei dupa 3 (200 lei) procedez la fel.
+Rezultatul va fi insumarea celor 5 linii sau tipuri, atunci cand am de pus N
+bancnote. Complexitatea este de O(5n) -> O(n), ca iterez prin 5 vectori prin
+for.
+
+Problema 2
+
+Am folosit Greedy. In primul rand am sortat scandurile crescator dupa
+x start si daca aveau x start egal, descrescator dupa x final. Dupa sortarea
+aceasta prima scandura nu poate fi redundant, deoarece x start e minim, iar
+daca sunt alte scanduri cu x start egal, nu au cum sa o includa pe prima 
+deoarece aceasta are x final cel mai mare. Incep sa parcurg vectorul si daca
+o scandura e redundanta (x final[i] < x final[i-1], nu mai uit la x start 
+pentru ca sunt sortate, si x start al scandurii curente e ori egal sau mai mare 
+decat cea precedenta), iar daca scandura curenta are x final mai mare decat cel
+precedenta nu e redundanta si o sa fac comparatiile fata de ea, deoarece x 
+start este mai mic sau egal cu x start toate scandurile care vor urma, iar
+posibilitatea de a include un alt gard este mai mare decat cea a scandurii
+initiale. Complexitatea este de O(nlogn), deoarece fac o sortare.
+De exemplu am gardurile (1 4) (3 5) (2 6), dupa sortare o sa le am astfel
+(1 4) (2 6) (3 5). (1 4) o plasez, ca nu poate fi redundanta, compar (2 6) cu
+(1 4) si o sa il folosesc pe (2 6) pe post de pivot la comparatii si il compar
+cu (3 5), care e inclus in el, dar care nu era inclus in (1 4).
+
+Problema 3
+
+Am folosit programare dinamica. Problema este similara cu problema
+rucsacului nefractionara, la noi bomboanele reprezinta greuatatea disponibila,
+iar obiectele sunt copii/elevii. Am facut o matrice in care coloanele sunt de
+la 0 la m+1 si n linii. Dp[i][j] imi spune in cate moduri pot imparti j
+bomboane daca am la dispozitie pe primii i copii. Matricea se completeaza pe 
+linii. Recurenta se calculeaza astfel:
+Cazul de baza, cand am j bomboane si il am doar pe primul copil la dispozitie,
+pun 1 daca j se afla in intervalul lui altfel pun 0 pentru ca nu pot sa scap
+de bomboane sau nu am destule bomboane.
+Cand am la dispozitie copii pana la i inclusiv din vector, ma uit pe linia
+anterioara, pe coloanele [j-y, j-y+1..., j-x] si adun ce se afla acolo, pentru
+a afla in cate moduri pot da eu j bomboane daca am copiii de la 0 la i
+disponibili, adica adun modurile in care pot distribui bomboanele ramase
+fara cele alocate intervalului copilului i.
+Complexitatea este de O(n*m) deoarece parcurg toata matricea.
+
+Problema 4 (Bonus)
+
+Am folosit Greedy. Prima oara sortez descrescator dupa greutati, deoarece nu
+sunt nevoit sa retin greutatea minima, pentru ca voi sti ca ultima greutate
+selectata are cea mai mica greutate. Am folosit o coada cu prioritati
+(min heap) in care am retinut primele m gantere din vector, dupa repetari.
+Imi retin randamentul maxim (produsul greutate repetari), il initializez cu 
+randamentul primei greutati. Parcurg vetorul, bag greutatea in coada,
+si verific daca prin alegerea ei imi creste randamentul. Dupa ce mi-am
+umplut coada, inlocuiesc greutatea cu repetari minime cu greutatea curenta,
+verificand daca prin aceasta inlocuire imi creste randamentul.
+Am folosit o coada cu prioritati, deoarece imi era mai usor sa retin repetarile
+minime si sa le actualizez atunci cand bagam/scoteam o gantera, deoarece coada
+era mereu sortata si gantera cu repetari minime se afla in varf, avand in
+acelasi timp insertie si stergere rapida, mentinand coada sortata - O (log m).
+Complexitatea este de O(nlogn), deoarece fac o sortare dar si deoarece am un
+for parcurs de n ori, in care inserez/sterg in coada de m elemente (Onlogm).
+Ca si functionare, metoda ia fiecare gantera ca un pivot si incearca sa afle
+randamentul maxim pentru fiecare greutate daca greutatea respectiva ar fi cea
+mai mica dintre greutatile alese.
