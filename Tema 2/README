@@ -1,0 +1,38 @@
+324CC ILIESCU LUCIAN-MARIUS
+
+Problema 1:
+
+Am folosit cautare binara pentru a determina numarul oraselor care trebuie
+blocate.
+Blochez intai prima jumatate de orase din permutare si pornesc un BFS din 1,
+daca nu pot ajunge la orasele care sunt atacate inseamna ca am blocat
+suficiente orase, si verific apoi daca pot bloca mai putine, mergand pe stanga
+si deblocand a doua jumatate din orasele blocate initial. Daca pot ajunge la
+cel putin unul din orasele blocate inseamna ca nu am blocat suficiente orase si
+ar trebui sa mai blochez, mergand pe dreapta si blochez prima jumatate din
+orasele ramase neblocate. Atunci cand stanga > dreapta, inseamna ca am gasit
+numarul minim de orase care trebuie blocate.
+Complexitatea este de O(lg(V) * (V+E)), deoarece la fiecare pas al cautarii
+incep un BFS, iar permutarea are V-1 noduri.
+
+Problema 2:
+
+Am aplicat algoritmul lui Prim pentru a afla arborele minim de acoperire,
+incep sa bag vecinii startului intr-un priority queue, si cat timp coada nu
+e goala, dau pop la coada (cel mai apropiat nod), ma uit in vecinii lui, si
+vad daca distanta de la start la vecin este mai mare decat (distanta de la
+start la nod + costul muchiei dintre nod si vecin), caz in care actualizez
+distanta.
+Complexitatea algoritmului este O(lg(E) * (V+E)), deoarece inserarea in PQueue
+are loc in timp logaritmic, inserandu-se fiecare muchie a grafului.
+
+Problema 3:
+
+Am aplicat algoritmul lui Dijkstra pentru a determina energia maxima de la
+nodul de start la restul nodurilor din graf. Bag nodul de start in PQueue.
+Cat timp coada nu e goala, dau pop, si iau nodul din muchie si ma uit in
+lista lui de adiacenta, daca energia ramasa de la start la vecin este mai
+mica decat (energia ramasa de la start la nod inmultita cu procentul ramas
+dupa ce trec prin muchia dintre nod si vecin), atunci actualizez energiile.
+Complexitatea algoritmului este de O(E *lg(V)), deoarece actualizarea cozii
+are loc in O(lg(V)),
